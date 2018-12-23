@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="fooodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar(max)" />
+          <Property Name="password" Type="nvarchar(max)" />
+          <Property Name="firstname" Type="nvarchar(max)" />
+          <Property Name="lastname" Type="nvarchar(max)" />
+          <Property Name="email" Type="nvarchar(max)" />
+          <Property Name="phone" Type="nvarchar(max)" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="position" Type="nvarchar(max)" />
+          <Property Name="level" Type="int" Nullable="false" />
+          <Property Name="isLocked" Type="bit" Nullable="false" />
+          <Property Name="imageURL" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CusOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="numberDish" Type="int" Nullable="false" />
+          <Property Name="dateOrder" Type="datetime" Nullable="false" />
+          <Property Name="totalcost" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Food_Dish">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="SizeId" Type="int" Nullable="false" />
+          <Property Name="imaGeURL" Type="nvarchar(max)" />
+          <Property Name="isLock" Type="bit" Nullable="false" />
+          <Property Name="stock" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Food_Size">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Food_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameType" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="OrderHistorys">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="numberDish" Type="int" Nullable="false" />
+          <Property Name="dateOrder" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="positionName" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_Food_Dish_dbo_Food_Size_SizeId">
+          <End Role="Food_Size" Type="Self.Food_Size" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Food_Dish" Type="Self.Food_Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food_Size">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Food_Dish">
+              <PropertyRef Name="SizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Food_Dish_dbo_Food_Type_TypeId">
+          <End Role="Food_Type" Type="Self.Food_Type" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Food_Dish" Type="Self.Food_Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Food_Dish">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="fooodModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CusOrders" EntityType="Self.CusOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Food_Dish" EntityType="Self.Food_Dish" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Food_Size" EntityType="Self.Food_Size" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Food_Type" EntityType="Self.Food_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderHistorys" EntityType="Self.OrderHistorys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Food_Dish_dbo_Food_Size_SizeId" Association="Self.FK_dbo_Food_Dish_dbo_Food_Size_SizeId">
+            <End Role="Food_Size" EntitySet="Food_Size" />
+            <End Role="Food_Dish" EntitySet="Food_Dish" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Food_Dish_dbo_Food_Type_TypeId" Association="Self.FK_dbo_Food_Dish_dbo_Food_Type_TypeId">
+            <End Role="Food_Type" EntitySet="Food_Type" />
+            <End Role="Food_Dish" EntitySet="Food_Dish" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="fooodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="firstname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="lastname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="level" Type="Int32" Nullable="false" />
+          <Property Name="isLocked" Type="Boolean" Nullable="false" />
+          <Property Name="imageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CusOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="numberDish" Type="Int32" Nullable="false" />
+          <Property Name="dateOrder" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="totalcost" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Food_Dish">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="SizeId" Type="Int32" Nullable="false" />
+          <Property Name="imaGeURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isLock" Type="Boolean" Nullable="false" />
+          <Property Name="stock" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Food_Size" Relationship="Self.FK_dbo_Food_Dish_dbo_Food_Size_SizeId" FromRole="Food_Dish" ToRole="Food_Size" />
+          <NavigationProperty Name="Food_Type" Relationship="Self.FK_dbo_Food_Dish_dbo_Food_Type_TypeId" FromRole="Food_Dish" ToRole="Food_Type" />
+        </EntityType>
+        <EntityType Name="Food_Size">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Food_Dish" Relationship="Self.FK_dbo_Food_Dish_dbo_Food_Size_SizeId" FromRole="Food_Size" ToRole="Food_Dish" />
+        </EntityType>
+        <EntityType Name="Food_Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Food_Dish" Relationship="Self.FK_dbo_Food_Dish_dbo_Food_Type_TypeId" FromRole="Food_Type" ToRole="Food_Dish" />
+        </EntityType>
+        <EntityType Name="OrderHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="numberDish" Type="Int32" Nullable="false" />
+          <Property Name="dateOrder" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="positionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_dbo_Food_Dish_dbo_Food_Size_SizeId">
+          <End Role="Food_Size" Type="Self.Food_Size" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Food_Dish" Type="Self.Food_Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food_Size">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Food_Dish">
+              <PropertyRef Name="SizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Food_Dish_dbo_Food_Type_TypeId">
+          <End Role="Food_Type" Type="Self.Food_Type" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Food_Dish" Type="Self.Food_Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food_Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Food_Dish">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="fooodEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="CusOrders" EntityType="Self.CusOrder" />
+          <EntitySet Name="Food_Dish" EntityType="Self.Food_Dish" />
+          <EntitySet Name="Food_Size" EntityType="Self.Food_Size" />
+          <EntitySet Name="Food_Type" EntityType="Self.Food_Type" />
+          <EntitySet Name="OrderHistorys" EntityType="Self.OrderHistory" />
+          <EntitySet Name="Positions" EntityType="Self.Position" />
+          <AssociationSet Name="FK_dbo_Food_Dish_dbo_Food_Size_SizeId" Association="Self.FK_dbo_Food_Dish_dbo_Food_Size_SizeId">
+            <End Role="Food_Size" EntitySet="Food_Size" />
+            <End Role="Food_Dish" EntitySet="Food_Dish" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Food_Dish_dbo_Food_Type_TypeId" Association="Self.FK_dbo_Food_Dish_dbo_Food_Type_TypeId">
+            <End Role="Food_Type" EntitySet="Food_Type" />
+            <End Role="Food_Dish" EntitySet="Food_Dish" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="fooodModelStoreContainer" CdmEntityContainer="fooodEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="fooodModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="fooodModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="level" ColumnName="level" />
+                <ScalarProperty Name="isLocked" ColumnName="isLocked" />
+                <ScalarProperty Name="imageURL" ColumnName="imageURL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CusOrders">
+            <EntityTypeMapping TypeName="fooodModel.CusOrder">
+              <MappingFragment StoreEntitySet="CusOrders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="numberDish" ColumnName="numberDish" />
+                <ScalarProperty Name="dateOrder" ColumnName="dateOrder" />
+                <ScalarProperty Name="totalcost" ColumnName="totalcost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Food_Dish">
+            <EntityTypeMapping TypeName="fooodModel.Food_Dish">
+              <MappingFragment StoreEntitySet="Food_Dish">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="SizeId" ColumnName="SizeId" />
+                <ScalarProperty Name="imaGeURL" ColumnName="imaGeURL" />
+                <ScalarProperty Name="isLock" ColumnName="isLock" />
+                <ScalarProperty Name="stock" ColumnName="stock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Food_Size">
+            <EntityTypeMapping TypeName="fooodModel.Food_Size">
+              <MappingFragment StoreEntitySet="Food_Size">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Food_Type">
+            <EntityTypeMapping TypeName="fooodModel.Food_Type">
+              <MappingFragment StoreEntitySet="Food_Type">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="nameType" ColumnName="nameType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderHistorys">
+            <EntityTypeMapping TypeName="fooodModel.OrderHistory">
+              <MappingFragment StoreEntitySet="OrderHistorys">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="numberDish" ColumnName="numberDish" />
+                <ScalarProperty Name="dateOrder" ColumnName="dateOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="fooodModel.Position">
+              <MappingFragment StoreEntitySet="Positions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="positionName" ColumnName="positionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
